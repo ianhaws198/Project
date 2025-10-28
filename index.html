@@ -3,747 +3,209 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GHAREEBON KA RAKWALA CHAI WALA</title>
+    <title>Jawad's AI Fixer - Professional AI Text Processing Tool</title>
+    <meta name="description" content="Professional AI text processing tool that cleans, formats, and optimizes AI-generated content with precision formatting preservation.">
+    <meta name="keywords" content="AI text processing, text formatting, content cleaning, AI text optimization, document formatting">
+    <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&family=Bangers&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        @keyframes typing {
-            from { width: 0; }
-            to { width: 100%; }
-        }
-        
-        @keyframes blink {
-            50% { border-color: transparent; }
-        }
-        
-        @keyframes steam {
-            0% { transform: translateY(0) scale(1); opacity: 0; }
-            50% { opacity: 1; }
-            100% { transform: translateY(-30px) scale(1.5); opacity: 0; }
-        }
-        
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
-        }
-        
-        .typing-animation {
-            overflow: hidden;
-            border-right: .15em solid #f39c12;
-            white-space: nowrap;
-            margin: 0 auto;
-            animation: 
-                typing 3s steps(20, end),
-                blink .75s step-end infinite;
-        }
-        
-        .steam {
-            position: absolute;
-            width: 10px;
-            height: 20px;
-            background: rgba(255, 255, 255, 0.7);
-            border-radius: 50%;
-            animation: steam 2s infinite ease-out;
-        }
-        
-        .highlight {
-            background-color: rgba(255, 255, 0, 0.5);
-            border-radius: 3px;
-            padding: 1px 2px;
-        }
-        
-        .chai-loader {
-            position: relative;
-            animation: float 3s ease-in-out infinite;
-        }
-        
-        .pulse-animation {
-            animation: pulse 0.5s ease-in-out;
-        }
-        
-        .comic-font {
-            font-family: 'Comic Neue', cursive;
-        }
-        
-        .bangers-font {
-            font-family: 'Bangers', cursive;
-        }
-        
-        .text-stroke {
-            text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
-        }
-        
-        .history-entry {
-            animation: slideIn 0.3s ease-out;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .history-entry:hover {
-            transform: translateX(-5px);
-            background-color: #f0f9ff;
-        }
-        
-        .bounce-animation {
-            animation: bounce 0.5s ease infinite;
-        }
-        
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateX(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-        
-        .editor-bg {
-            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23fcd34d' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
-        }
-        
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: #f59e0b;
-            border-radius: 10px;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: #d97706;
-        }
-        
-        .tool-card {
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        }
-        
-        .tool-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-        
-        .text-editor {
-            min-height: 50vh;
-            max-height: 50vh;
-        }
-        
-        @media (min-height: 800px) {
-            .text-editor {
-                min-height: 60vh;
-                max-height: 60vh;
-            }
-        }
-        
-        .history-panel {
-            max-height: 25vh;
-        }
-        
-        .chai-cup {
-            animation: bounce 2s infinite;
-        }
-        
-        @keyframes chai-bubble {
-            0% { transform: translateY(0) scale(0.8); opacity: 0; }
-            50% { opacity: 0.6; }
-            100% { transform: translateY(-20px) scale(1.2); opacity: 0; }
-        }
-        
-        .bubble {
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.7);
-            border-radius: 50%;
-            animation: chai-bubble 2s infinite ease-out;
-        }
-    </style>
 </head>
-<body class="bg-gradient-to-br from-yellow-400 via-orange-400 to-red-500 min-h-screen p-4 comic-font">
-    <!-- Chai cup loader -->
-    <div id="loader" class="fixed inset-0 bg-black bg-opacity-70 flex flex-col items-center justify-center z-50 hidden">
-        <div class="chai-loader">
-            <div class="text-8xl">☕</div>
-            <div class="steam" style="left: 35%; top: -30px; animation-delay: 0s;"></div>
-            <div class="steam" style="left: 50%; top: -40px; animation-delay: 0.5s;"></div>
-            <div class="steam" style="left: 65%; top: -35px; animation-delay: 1s;"></div>
+<body>
+    <!-- Loading Overlay -->
+    <div id="loader" class="loading-overlay">
+        <div class="loading-content">
+            <div class="loading-spinner">
+                <i class="fas fa-magic"></i>
+            </div>
+            <div class="loading-text">Processing your document...</div>
         </div>
-        <div class="text-2xl text-white mt-8 font-bold">Brewing your PDF...</div>
     </div>
     
-    <!-- Confirmation Toast -->
-    <div id="toast" class="fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transform translate-x-full transition-transform duration-300">
-        <div class="flex items-center">
-            <i class="fas fa-check-circle text-xl mr-2"></i>
-            <span id="toast-message">Operation completed!</span>
+    <!-- Success Toast -->
+    <div id="toast" class="toast-container">
+        <div class="toast-content">
+            <i class="fas fa-check-circle toast-icon"></i>
+            <span id="toast-message">Operation completed successfully!</span>
         </div>
     </div>
     
     <!-- Main Container -->
-    <div class="max-w-7xl mx-auto">
+    <div class="main-container">
         <!-- Header -->
-        <header class="text-center mb-6">
-            <div class="flex justify-center mb-2 relative">
-                <div class="bg-yellow-500 rounded-full p-3 shadow-lg chai-cup relative">
-                    <i class="fas fa-mug-hot text-3xl text-red-600"></i>
-                    <div class="bubble" style="left: 25%; top: -15px; animation-delay: 0s;"></div>
-                    <div class="bubble" style="left: 50%; top: -20px; animation-delay: 0.5s;"></div>
-                    <div class="bubble" style="left: 75%; top: -18px; animation-delay: 1s;"></div>
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo-container">
+                    <div class="logo-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1 class="app-title">Jawad's AI Fixer</h1>
+                        <p class="app-subtitle">Professional AI Text Processing</p>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button id="clear-btn" class="btn-secondary">
+                        <i class="fas fa-broom"></i>
+                        Clear All
+                    </button>
                 </div>
             </div>
-            <h1 class="text-4xl md:text-6xl font-bold mb-3 text-white bangers-font text-stroke" style="color: #f39c12; text-shadow: 3px 3px 0 #000;">GHAREEBON KA RAKWALA CHAI WALA</h1>
-            <div id="welcome-message" class="text-xl md:text-2xl font-bold text-white bg-red-600 inline-block px-6 py-2 rounded-full shadow-lg"></div>
         </header>
+
+        <!-- Format Indicators -->
+        <div class="format-indicators-container">
+            <h3 class="indicators-title">
+                <i class="fas fa-eye"></i>
+                Format Detection Panel
+            </h3>
+            <div id="format-indicators" class="indicators-grid">
+                <span class="no-formatting">No special formatting detected</span>
+            </div>
+        </div>
         
         <!-- Main Content Area -->
-        <div class="flex flex-col lg:flex-row gap-5">
-            <!-- Left: Text Editor (70%) -->
-            <div class="lg:w-7/12 bg-white rounded-3xl shadow-2xl overflow-hidden border-4 border-blue-600">
-                <div class="bg-blue-600 text-white p-3 flex justify-between items-center">
-                    <h2 class="text-lg md:text-xl font-bold flex items-center">
-                        <i class="fas fa-edit mr-2"></i> TEXT WORKSHOP
+        <div class="content-grid">
+            <!-- Text Editor Section -->
+            <div class="editor-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-edit"></i>
+                        AI TEXT WORKSHOP
                     </h2>
-                    <div>
-                        <button id="clear-btn" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-full text-sm pulse-animation">
-                            <i class="fas fa-broom mr-1"></i> Clear All
-                        </button>
+                    <div class="word-count">
+                        <span id="word-count">0 words</span>
+                        <span id="char-count">0 characters</span>
                     </div>
                 </div>
-                <div id="editor" 
-                     class="p-4 text-editor overflow-auto editor-bg focus:outline-none text-gray-700" 
-                     contenteditable="true"></div>
+                <div id="editor" class="text-editor" contenteditable="true"></div>
             </div>
             
-            <!-- Right: Tools Panel (30%) -->
-            <div class="lg:w-5/12 flex flex-col gap-5">
-                <!-- Clean Text Card -->
-                <div class="tool-card bg-white rounded-3xl overflow-hidden border-4 border-green-600">
-                    <div class="bg-green-600 text-white p-3">
-                        <h2 class="text-lg md:text-xl font-bold flex items-center">
-                            <i class="fas fa-magic mr-2"></i> CLEANUP MASTER
-                        </h2>
+            <!-- Tools Panel -->
+            <div class="tools-section">
+                <!-- Text Cleanup Card -->
+                <div class="tool-card">
+                    <div class="card-header">
+                        <i class="fas fa-magic"></i>
+                        <h3>Text Cleanup</h3>
                     </div>
-                    <div class="p-4">
-                        <div class="grid grid-cols-2 gap-3 mb-3">
-                            <button id="clean-btn" class="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white font-bold py-3 px-2 rounded-xl flex items-center justify-center pulse-animation">
-                                <i class="fas fa-broom mr-2"></i> Clean Text
+                    <div class="card-content">
+                        <div class="button-grid">
+                            <button id="clean-btn" class="btn-primary">
+                                <i class="fas fa-broom"></i>
+                                Clean Text
                             </button>
-                            <button id="copy-btn" class="bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white font-bold py-3 px-2 rounded-xl flex items-center justify-center">
-                                <i class="fas fa-copy mr-2"></i> Copy Text
+                            <button id="copy-btn" class="btn-secondary">
+                                <i class="fas fa-copy"></i>
+                                Copy Text
                             </button>
                         </div>
-                        <p class="text-sm text-gray-600 text-center">
-                            Fixes dashes and spaces intelligently
-                        </p>
+                        <p class="card-description">Intelligently fixes dashes, spaces, and formatting issues</p>
                     </div>
                 </div>
-                
+
+                <!-- Format Fixers Card -->
+                <div class="tool-card">
+                    <div class="card-header">
+                        <i class="fas fa-hammer"></i>
+                        <h3>Format Fixers</h3>
+                    </div>
+                    <div class="card-content">
+                        <div class="button-stack">
+                            <button id="remove-bold-btn" class="btn-warning">
+                                <i class="fas fa-bold"></i>
+                                Remove Bold
+                            </button>
+                            <button id="remove-italic-btn" class="btn-warning">
+                                <i class="fas fa-italic"></i>
+                                Remove Italic
+                            </button>
+                            <button id="remove-source-links-btn" class="btn-danger">
+                                <i class="fas fa-unlink"></i>
+                                Remove Source Links
+                            </button>
+                            <button id="remove-hyperlinks-btn" class="btn-danger">
+                                <i class="fas fa-link-slash"></i>
+                                Remove Hyperlinks
+                            </button>
+                            <button id="remove-ai-dividers-btn" class="btn-danger">
+                                <i class="fas fa-cut"></i>
+                                Remove AI Dividers
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Search & Replace Card -->
-                <div class="tool-card bg-white rounded-3xl overflow-hidden border-4 border-purple-600">
-                    <div class="bg-purple-600 text-white p-3">
-                        <h2 class="text-lg md:text-xl font-bold flex items-center">
-                            <i class="fas fa-search mr-2"></i> SEARCH & REPLACE
-                        </h2>
+                <div class="tool-card">
+                    <div class="card-header">
+                        <i class="fas fa-search"></i>
+                        <h3>Search & Replace</h3>
                     </div>
-                    <div class="p-4">
-                        <div class="mb-3">
-                            <label class="block text-sm font-medium mb-1 flex items-center">
-                                <i class="fas fa-search mr-2 text-purple-600"></i> Find:
+                    <div class="card-content">
+                        <div class="input-group">
+                            <label>
+                                <i class="fas fa-search"></i>
+                                Find:
                             </label>
-                            <input id="search-input" type="text" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none" placeholder="Text to find...">
+                            <input id="search-input" type="text" placeholder="Text to find...">
                         </div>
-                        <div class="mb-3">
-                            <label class="block text-sm font-medium mb-1 flex items-center">
-                                <i class="fas fa-exchange-alt mr-2 text-purple-600"></i> Replace with:
+                        <div class="input-group">
+                            <label>
+                                <i class="fas fa-exchange-alt"></i>
+                                Replace with:
                             </label>
-                            <input id="replace-input" type="text" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none" placeholder="Replacement text...">
+                            <input id="replace-input" type="text" placeholder="Replacement text...">
                         </div>
-                        <div class="flex items-center mb-3">
-                            <input id="regex-checkbox" type="checkbox" class="mr-2 h-5 w-5 text-purple-600">
-                            <label for="regex-checkbox" class="text-sm flex items-center">
-                                <i class="fas fa-code mr-2"></i> Use Regular Expression
+                        <div class="checkbox-group">
+                            <input id="regex-checkbox" type="checkbox">
+                            <label for="regex-checkbox">
+                                <i class="fas fa-code"></i>
+                                Use Regular Expression
                             </label>
                         </div>
-                        <div class="grid grid-cols-2 gap-3">
-                            <button id="replace-btn" class="bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white py-2 px-4 rounded-lg flex items-center justify-center">
-                                <i class="fas fa-exchange-alt mr-2"></i> Replace
+                        <div class="button-grid">
+                            <button id="replace-btn" class="btn-primary">
+                                <i class="fas fa-exchange-alt"></i>
+                                Replace
                             </button>
-                            <button id="highlight-btn" class="bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-600 hover:to-amber-600 text-white py-2 px-4 rounded-lg flex items-center justify-center">
-                                <i class="fas fa-highlighter mr-2"></i> Highlight
+                            <button id="highlight-btn" class="btn-secondary">
+                                <i class="fas fa-highlighter"></i>
+                                Highlight
                             </button>
                         </div>
                     </div>
                 </div>
-                
-                <!-- History Card -->
-                <div class="tool-card bg-white rounded-3xl overflow-hidden border-4 border-red-600">
-                    <div class="bg-red-600 text-white p-3">
-                        <div class="flex justify-between items-center">
-                            <h2 class="text-lg md:text-xl font-bold flex items-center">
-                                <i class="fas fa-history mr-2"></i> HISTORY LOG
-                            </h2>
-                            <span class="text-sm">(Last 10)</span>
+
+                <!-- History & Export Card -->
+                <div class="tool-card">
+                    <div class="card-header">
+                        <i class="fas fa-history"></i>
+                        <h3>History & Export</h3>
+                    </div>
+                    <div class="card-content">
+                        <div id="history-log" class="history-panel">
+                            <p class="empty-state">Your actions will appear here...</p>
                         </div>
-                    </div>
-                    <div class="p-4">
-                        <div id="history-log" class="history-panel overflow-y-auto bg-gray-100 p-3 rounded-lg">
-                            <p class="text-gray-500 text-center py-8 italic">Your actions will appear here...</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Download Card -->
-                <div class="tool-card bg-white rounded-3xl overflow-hidden border-4 border-orange-600">
-                    <div class="bg-orange-600 text-white p-3">
-                        <h2 class="text-lg md:text-xl font-bold flex items-center">
-                            <i class="fas fa-file-pdf mr-2"></i> EXPORT
-                        </h2>
-                    </div>
-                    <div class="p-4">
-                        <button id="download-pdf" class="w-full bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white font-bold py-3 px-4 rounded-xl flex items-center justify-center pulse-animation">
-                            <i class="fas fa-download mr-2"></i> Download as PDF
+                        <button id="download-pdf" class="btn-success download-btn">
+                            <i class="fas fa-file-pdf"></i>
+                            Export as PDF
                         </button>
-                        <p class="text-sm text-gray-600 mt-2 text-center">
-                            File: <span class="font-bold">GHAREEBON KA SAHARA.pdf</span>
-                        </p>
+                        <p class="file-info">File: <strong>PROCESSED_DOCUMENT.pdf</strong></p>
                     </div>
                 </div>
             </div>
         </div>
         
         <!-- Footer -->
-        <footer class="mt-6 text-center text-white">
-            <p class="font-bold text-lg">Made with ❤️ and ☕ for all GHAREEBON out there!</p>
-            <p class="text-sm mt-1">Your text-cleaning chai wala since 2023</p>
+        <footer class="app-footer">
+            <p class="footer-text">Jawad's AI Fixer - Professional Text Processing Solution</p>
+            <p class="footer-subtext">Precision formatting preservation and intelligent text optimization</p>
         </footer>
     </div>
-    
-    <script>
-        // Global variables
-        let historyEntries = [];
-        const MAX_HISTORY = 10;
-        
-        // Audio elements for sound effects
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        
-        function playSound(frequency, type = 'sine') {
-            try {
-                const oscillator = audioContext.createOscillator();
-                const gainNode = audioContext.createGain();
-                
-                oscillator.connect(gainNode);
-                gainNode.connect(audioContext.destination);
-                
-                oscillator.type = type;
-                oscillator.frequency.value = frequency;
-                gainNode.gain.value = 0.1;
-                
-                oscillator.start();
-                setTimeout(() => {
-                    oscillator.stop();
-                }, 100);
-            } catch (e) {
-                console.log("Audio error", e);
-            }
-        }
-        
-        // Show toast notification
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            const toastMessage = document.getElementById('toast-message');
-            
-            toastMessage.textContent = message;
-            toast.classList.remove('translate-x-full');
-            
-            setTimeout(() => {
-                toast.classList.add('translate-x-full');
-            }, 3000);
-        }
-        
-        // Typing welcome message
-        function typeWelcomeMessage() {
-            const message = "Welcome GHAREEB 😁";
-            const elem = document.getElementById('welcome-message');
-            elem.innerHTML = '';
-            elem.classList.add('typing-animation');
-            
-            setTimeout(() => {
-                elem.classList.remove('typing-animation');
-                elem.textContent = message;
-                playSound(523.25); // Play a sound when done
-            }, 3200);
-        }
-        
-        // Add to history log
-        function addToHistory(action) {
-            playSound(392.00); // G4 note
-            const editor = document.getElementById('editor');
-            const now = new Date();
-            const timeString = now.toLocaleTimeString();
-            
-            // Save current content to history
-            historyEntries.push({
-                action: action,
-                timestamp: timeString,
-                content: editor.innerHTML
-            });
-            
-            // Keep only the last MAX_HISTORY entries
-            if (historyEntries.length > MAX_HISTORY) {
-                historyEntries.shift();
-            }
-            
-            updateHistoryLog();
-            showToast(action);
-        }
-        
-        // Update history log display
-        function updateHistoryLog() {
-            const historyLog = document.getElementById('history-log');
-            
-            // Clear current log
-            historyLog.innerHTML = '';
-            
-            if (historyEntries.length === 0) {
-                historyLog.innerHTML = '<p class="text-gray-500 text-center py-8 italic">Your actions will appear here...</p>';
-                return;
-            }
-            
-            // Add entries in reverse order (newest first)
-            for (let i = historyEntries.length - 1; i >= 0; i--) {
-                const entry = historyEntries[i];
-                const historyEntry = document.createElement('div');
-                historyEntry.className = 'history-entry mb-2 p-2 bg-white rounded-lg border-l-4 border-blue-500 shadow-sm';
-                historyEntry.innerHTML = `
-                    <div class="flex justify-between">
-                        <span class="font-bold">${entry.action}</span>
-                        <span class="text-sm text-gray-500">${entry.timestamp}</span>
-                    </div>
-                `;
-                
-                // Add click event to restore content
-                historyEntry.addEventListener('click', () => {
-                    document.getElementById('editor').innerHTML = entry.content;
-                    addToHistory(`Restored: ${entry.action}`);
-                });
-                
-                historyLog.appendChild(historyEntry);
-            }
-        }
-        
-        // Enhanced clean text function with precise dash handling
-        function cleanText() {
-            playSound(440.00); // A4 note
-            const editor = document.getElementById('editor');
-            
-            // Get the HTML content
-            let content = editor.innerHTML;
-            
-            // Create a temporary div to work with the HTML
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = content;
-            
-            // Clean text nodes without altering structure
-            const cleanTextNodes = (node) => {
-                if (node.nodeType === Node.TEXT_NODE) {
-                    let text = node.nodeValue;
-                    
-                    // Replace em dash (—) between words with comma and space
-                    text = text.replace(/(\w)—(\w)/g, '$1, $2');
-                    
-                    // Replace en dash (–) between words with comma and space
-                    text = text.replace(/(\w)–(\w)/g, '$1, $2');
-                    
-                    // Replace dashes with surrounding spaces with single space
-                    text = text.replace(/\s*[—–]\s*/g, ' ');
-                    
-                    // Replace multiple spaces with single space (preserve line breaks)
-                    text = text.replace(/[^\S\r\n]+/g, ' ');
-                    
-                    node.nodeValue = text;
-                } else if (node.nodeType === Node.ELEMENT_NODE) {
-                    // Preserve all structural elements (div, p, br, etc.)
-                    for (let child of node.childNodes) {
-                        cleanTextNodes(child);
-                    }
-                }
-            };
-            
-            cleanTextNodes(tempDiv);
-            
-            // Set the cleaned content back to the editor
-            editor.innerHTML = tempDiv.innerHTML;
-            
-            addToHistory("Cleaned text");
-        }
-        
-        // Remove existing highlights
-        function removeHighlights() {
-            const editor = document.getElementById('editor');
-            const highlights = editor.querySelectorAll('.highlight');
-            
-            highlights.forEach(highlight => {
-                const parent = highlight.parentNode;
-                const textNode = document.createTextNode(highlight.textContent);
-                parent.replaceChild(textNode, highlight);
-                
-                // Normalize to merge adjacent text nodes
-                parent.normalize();
-            });
-        }
-        
-        // Highlight matches in text
-        function highlightMatches() {
-            const searchInput = document.getElementById('search-input').value;
-            if (!searchInput) return;
-            
-            // Remove existing highlights first
-            removeHighlights();
-            
-            const editor = document.getElementById('editor');
-            const regexCheckbox = document.getElementById('regex-checkbox').checked;
-            
-            try {
-                let regex;
-                if (regexCheckbox) {
-                    regex = new RegExp(searchInput, 'gi');
-                } else {
-                    // Escape special characters for plain text search
-                    regex = new RegExp(searchInput.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
-                }
-                
-                // Create a temporary div to work with the HTML
-                const tempDiv = document.createElement('div');
-                tempDiv.innerHTML = editor.innerHTML;
-                
-                // Function to highlight text in a node
-                const highlightNode = (node) => {
-                    if (node.nodeType === Node.TEXT_NODE) {
-                        const text = node.nodeValue;
-                        const matches = [...text.matchAll(regex)];
-                        
-                        if (matches.length > 0) {
-                            const parent = node.parentNode;
-                            const fragment = document.createDocumentFragment();
-                            let lastIndex = 0;
-                            
-                            matches.forEach(match => {
-                                const matchIndex = match.index;
-                                
-                                // Text before the match
-                                if (matchIndex > lastIndex) {
-                                    fragment.appendChild(document.createTextNode(text.substring(lastIndex, matchIndex)));
-                                }
-                                
-                                // The matched text with highlight
-                                const highlightSpan = document.createElement('span');
-                                highlightSpan.className = 'highlight';
-                                highlightSpan.textContent = match[0];
-                                fragment.appendChild(highlightSpan);
-                                
-                                lastIndex = matchIndex + match[0].length;
-                            });
-                            
-                            // Text after the last match
-                            if (lastIndex < text.length) {
-                                fragment.appendChild(document.createTextNode(text.substring(lastIndex)));
-                            }
-                            
-                            parent.replaceChild(fragment, node);
-                        }
-                    } else if (node.nodeType === Node.ELEMENT_NODE) {
-                        for (let child of node.childNodes) {
-                            highlightNode(child);
-                        }
-                    }
-                };
-                
-                highlightNode(tempDiv);
-                editor.innerHTML = tempDiv.innerHTML;
-                
-                addToHistory(`Highlighted: "${searchInput}"`);
-                playSound(349.23); // F4 note
-            } catch (e) {
-                showToast(`Regex error: ${e.message}`);
-            }
-        }
-        
-        // Replace text function
-        function replaceText() {
-            const searchInput = document.getElementById('search-input').value;
-            const replaceInput = document.getElementById('replace-input').value;
-            if (!searchInput) return;
-            
-            // Remove existing highlights first
-            removeHighlights();
-            
-            const editor = document.getElementById('editor');
-            const regexCheckbox = document.getElementById('regex-checkbox').checked;
-            
-            try {
-                let regex;
-                if (regexCheckbox) {
-                    regex = new RegExp(searchInput, 'gi');
-                } else {
-                    // Escape special characters for plain text search
-                    regex = new RegExp(searchInput.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
-                }
-                
-                // Create a temporary div to work with the HTML
-                const tempDiv = document.createElement('div');
-                tempDiv.innerHTML = editor.innerHTML;
-                
-                // Function to replace text in a node
-                const replaceNode = (node) => {
-                    if (node.nodeType === Node.TEXT_NODE) {
-                        let text = node.nodeValue;
-                        text = text.replace(regex, replaceInput);
-                        node.nodeValue = text;
-                    } else if (node.nodeType === Node.ELEMENT_NODE) {
-                        for (let child of node.childNodes) {
-                            replaceNode(child);
-                        }
-                    }
-                };
-                
-                replaceNode(tempDiv);
-                editor.innerHTML = tempDiv.innerHTML;
-                
-                addToHistory(`Replaced: "${searchInput}" with "${replaceInput}"`);
-                playSound(261.63); // C4 note
-            } catch (e) {
-                showToast(`Regex error: ${e.message}`);
-            }
-        }
-        
-        // Copy text function with styling preserved
-        function copyTextWithStyle() {
-            const editor = document.getElementById('editor');
-            const htmlContent = editor.innerHTML;
-            
-            // Create a blob of the content
-            const blob = new Blob([htmlContent], {type: 'text/html'});
-            const data = [new ClipboardItem({
-                'text/html': blob,
-                'text/plain': new Blob([editor.innerText], {type: 'text/plain'})
-            })];
-            
-            navigator.clipboard.write(data).then(() => {
-                showToast("Text copied with formatting!");
-                addToHistory("Copied text with formatting");
-                playSound(523.25); // C5 note
-            }).catch(err => {
-                showToast("Failed to copy formatted text");
-                console.error('Failed to copy: ', err);
-            });
-        }
-        
-        // Download as PDF function
-        function downloadPDF() {
-            playSound(659.25); // E5 note
-            const loader = document.getElementById('loader');
-            loader.classList.remove('hidden');
-            
-            setTimeout(() => {
-                const editor = document.getElementById('editor');
-                const { jsPDF } = window.jspdf;
-                
-                html2canvas(editor).then(canvas => {
-                    const imgData = canvas.toDataURL('image/png');
-                    const pdf = new jsPDF('p', 'mm', 'a4');
-                    const pdfWidth = pdf.internal.pageSize.getWidth();
-                    const pdfHeight = pdf.internal.pageSize.getHeight();
-                    
-                    // Calculate aspect ratio to fit content
-                    const imgWidth = canvas.width;
-                    const imgHeight = canvas.height;
-                    const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
-                    const imgX = (pdfWidth - imgWidth * ratio) / 2;
-                    const imgY = 15;
-                    
-                    pdf.addImage(imgData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio);
-                    pdf.save('GHAREEBON KA SAHARA.pdf');
-                    
-                    loader.classList.add('hidden');
-                    addToHistory("Downloaded PDF");
-                    showToast("PDF downloaded successfully!");
-                });
-            }, 1000);
-        }
-        
-        // Initialize the app
-        document.addEventListener('DOMContentLoaded', () => {
-            // Type welcome message
-            typeWelcomeMessage();
-            
-            // Set up event listeners
-            document.getElementById('clean-btn').addEventListener('click', cleanText);
-            document.getElementById('replace-btn').addEventListener('click', replaceText);
-            document.getElementById('highlight-btn').addEventListener('click', highlightMatches);
-            document.getElementById('download-pdf').addEventListener('click', downloadPDF);
-            document.getElementById('copy-btn').addEventListener('click', copyTextWithStyle);
-            
-            document.getElementById('clear-btn').addEventListener('click', () => {
-                playSound(329.63); // E4 note
-                document.getElementById('editor').innerHTML = '';
-                addToHistory("Cleared editor");
-                showToast("Editor cleared!");
-            });
-            
-            // Add placeholder text to editor
-            document.getElementById('editor').innerHTML = 
-                '<div class="text-gray-500 italic p-2">' + 
-                '<h2 class="text-2xl font-bold text-gray-700 mb-4">Welcome to GHAREEBON KA RAKWALA CHAI WALA! ☕</h2>' + 
-                '<p>Paste or type your text here to clean it up!</p><br>' + 
-                '<p>Example: "Hello—world   this   is—a test–with   dashes"</p><br>' + 
-                '<p>Try our cleaning magic to see how it transforms!</p>' + 
-                '</div>';
-            
-            // Add event listener for editor focus to clear placeholder
-            document.getElementById('editor').addEventListener('focus', function() {
-                if (this.innerHTML.includes('Welcome to GHAREEBON')) {
-                    this.innerHTML = '';
-                }
-            });
-            
-            // Add animation to buttons on hover
-            const buttons = document.querySelectorAll('button');
-            buttons.forEach(button => {
-                button.addEventListener('mouseenter', () => {
-                    button.classList.add('pulse-animation');
-                    setTimeout(() => {
-                        button.classList.remove('pulse-animation');
-                    }, 500);
-                });
-            });
-            
-            // Add example text for testing
-            document.getElementById('search-input').value = 'example';
-            document.getElementById('replace-input').value = 'demo';
-        });
-    </script>
+
+    <script src="script.js"></script>
 </body>
 </html>
