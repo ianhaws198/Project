@@ -160,6 +160,17 @@ body {
     margin-bottom: 1.5rem;
     box-shadow: var(--shadow);
 }
+/* Add these to your existing CSS in the format-indicator section */
+
+.source-link-indicator { 
+    background: #fef3c7; 
+    color: #92400e; 
+}
+
+.divider-indicator { 
+    background: #e0e7ff; 
+    color: #3730a3; 
+}
 
 .indicators-title {
     font-size: 1.125rem;
@@ -567,4 +578,5 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
     background: #a8a8a8;
+
 }
